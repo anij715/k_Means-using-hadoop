@@ -98,8 +98,8 @@ public class KMeans extends Configured implements Tool
     public static boolean stopIteration(Configuration conf) throws IOException //called in main
     {
         FileSystem fs=FileSystem.get(conf);
-        Path pervCenterFile=new Path("/user/sharmarz/centroid_txt/centroid.txt");
-        Path currentCenterFile=new Path("/user/sharmarz/output_kmeans_txt_2b/newCentroid/part-r-00000");
+        Path pervCenterFile=new Path("your path");
+        Path currentCenterFile=new Path("your path");
         if(!(fs.exists(pervCenterFile) && fs.exists(currentCenterFile)))
         {
             System.exit(1);
@@ -322,8 +322,8 @@ public class KMeans extends Configured implements Tool
         Job job=new Job(conf);
         job.setJarByClass(KMeans.class);
         
-        FileInputFormat.setInputPaths(job, "/user/sharmarz/input_kmeans_txt");
-        Path outDir=new Path("/user/sharmarz/output_kmeans_txt_2b/output/newCentroid");
+        FileInputFormat.setInputPaths(job, "your path");
+        Path outDir=new Path("your path");
         fs.delete(outDir,true);
         FileOutputFormat.setOutputPath(job, outDir);
          
@@ -343,7 +343,7 @@ public class KMeans extends Configured implements Tool
         Configuration conf = new Configuration();
         FileSystem fs=FileSystem.get(conf);
          
-        Path dataFile=new Path("/user/sharmarz/centroid_txt/centroid.txt");
+        Path dataFile=new Path("your path");
         DistributedCache.addCacheFile(dataFile.toUri(), conf);
  
         int iteration = 1;
@@ -353,15 +353,12 @@ public class KMeans extends Configured implements Tool
             success ^= ToolRunner.run(conf, new KMeans(), args);
             iteration++;
         } while (success == 1 && iteration <= MAXITERATIONS && (!stopIteration(conf)) && !StopSignalFromReducer);
-         
-		
-		// for final output(just a mapper only task)
 		
         Job job=new Job(conf);
         job.setJarByClass(KMeans.class);
         
-        FileInputFormat.setInputPaths(job, "/user/sharmarz/input_kmeans_txt");
-        Path outDir=new Path("/user/sharmarz/output_kmeans_txt_2b/output/final");
+        FileInputFormat.setInputPaths(job, "your path");
+        Path outDir=new Path("your path");
         fs.delete(outDir,true);
         FileOutputFormat.setOutputPath(job, outDir);
          
